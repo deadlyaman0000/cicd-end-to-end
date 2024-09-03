@@ -50,7 +50,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: '7e63b8ab-f33e-4f29-b4b4-48c644684fa6', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh '''
                         git config --global user.email "amanpocox3@gmail.com"
-                        git config --global user.name "Aman"
+                        git config --global user.name "deadlyaman0000"
                         cat deploy.yaml
                         sed -i "s/32/${BUILD_NUMBER}/g" deploy.yaml
                         cat deploy.yaml
