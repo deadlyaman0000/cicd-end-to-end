@@ -49,15 +49,15 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: '7e63b8ab-f33e-4f29-b4b4-48c644684fa6', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh '''
-                        git config --global user.email "amanpocox3@gmail.com"
-                        git config --global user.name "deadlyaman0000"
+                        git config --global user.email "your-email@example.com"
+                        git config --global user.name "Your Name"
                         cat deploy.yaml
                         sed -i "s/32/${BUILD_NUMBER}/g" deploy.yaml
                         cat deploy.yaml
                         git add deploy.yaml
                         git commit -m 'Updated the deploy yaml | Jenkins Pipeline'
                         git remote -v
-                        git push https://github.com/deadlyaman0000/jenkins.git HEAD:main
+                        git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/deadlyaman0000/jenkins.git HEAD:main
                         '''                        
                     }
                 }
