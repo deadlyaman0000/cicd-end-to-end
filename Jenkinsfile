@@ -3,7 +3,6 @@ pipeline {
     
     environment {
         IMAGE_TAG = "${BUILD_NUMBER}"
-        DOCKER_CREDENTIALS_ID = '8ffe56c8-b5c3-431b-b450-da24a1731b14' // Replace with your Jenkins Docker Hub credentials ID
     }
     
     stages {
@@ -29,15 +28,10 @@ pipeline {
         stage('Push the Docker Image') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        sh '''
-                        echo 'Login to Docker Hub'
-                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-
-                        echo 'Push to Docker Hub'
-                        docker push darkneth/cicd-e2e:${BUILD_NUMBER}
-                        '''
-                    }
+                    sh '''
+                    echo 'Push to Docker Hub'
+                    docker push darkneth/cicd-e2e:${BUILD_NUMBER}
+                    '''
                 }
             }
         }
@@ -55,6 +49,8 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: '7e63b8ab-f33e-4f29-b4b4-48c644684fa6', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh '''
+                        git config --global user.email "amanpocox3@gmail.com"
+                        git config --global user.name "Aman"
                         cat deploy.yaml
                         sed -i "s/32/${BUILD_NUMBER}/g" deploy.yaml
                         cat deploy.yaml
