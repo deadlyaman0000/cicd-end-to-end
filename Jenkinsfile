@@ -3,6 +3,7 @@ pipeline {
     
     environment {
         IMAGE_TAG = "${BUILD_NUMBER}"
+        DOCKER_CREDENTIALS_ID = '8ffe56c8-b5c3-431b-b450-da24a1731b14' // Replace with your Jenkins Docker Hub credentials ID
     }
     
     stages {
@@ -28,10 +29,15 @@ pipeline {
         stage('Push the Docker Image') {
             steps {
                 script {
-                    sh '''
-                    echo 'Push to Docker Hub'
-                    docker push darkneth/cicd-e2e:${BUILD_NUMBER}
-                    '''
+                    withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh '''
+                        echo 'Login to Docker Hub'
+                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+
+                        echo 'Push to Docker Hub'
+                        docker push darkneth/cicd-e2e:${BUILD_NUMBER}
+                        '''
+                    }
                 }
             }
         }
