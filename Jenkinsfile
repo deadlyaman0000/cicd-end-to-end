@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git credentialsId: '7e63b8ab-f33e-4f29-b4b4-48c644684fa6',
+                git credentialsId: 'Replace-it',
                     url: 'https://github.com/deadlyaman0000/cicd-end-to-end.git',
                     branch: 'main'
             }
@@ -38,7 +38,7 @@ pipeline {
         
         stage('Checkout K8S manifest SCM') {
             steps {
-                git credentialsId: '7e63b8ab-f33e-4f29-b4b4-48c644684fa6',
+                git credentialsId: 'replace-it',
                     url: 'https://github.com/deadlyaman0000/jenkins.git',
                     branch: 'main'
             }
@@ -47,7 +47,7 @@ pipeline {
         stage('Update K8S manifest & push to Repo') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: '7e63b8ab-f33e-4f29-b4b4-48c644684fa6', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                    withCredentials([usernamePassword(credentialsId: 'replace-it', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh '''
                         git config --global user.email "your-email@example.com"
                         git config --global user.name "Your Name"
